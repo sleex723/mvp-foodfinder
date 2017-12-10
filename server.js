@@ -4,8 +4,8 @@ const webpack = require('webpack');
 const webpackConfig = require('./webpack.config.js');
 const app = express();
 const bodyParser = require('body-parser')
-
 const compiler = webpack(webpackConfig);
+const yelp = require('./helpers/yelpHelper.js');
 
 app.use(express.static(__dirname + '/www'));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -21,8 +21,15 @@ app.use(webpackDevMiddleware(compiler, {
 }));
 
 app.post('/foodlist', function(req, res) {
-  console.log(req.body);
-  console.log('am i posting');
+  yelp.yelp.search({term: 'food', location: '90210', price: '1,2,3', limit: 10})
+  .then(function (data) {
+      console.log(data);
+      console.log('good');
+  })
+  .catch(function (err) {
+      console.error(err);
+      console.log('fail');
+  });
   res.end();
 })
 

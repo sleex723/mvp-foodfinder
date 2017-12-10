@@ -4,6 +4,7 @@ import Search from './components/search.js';
 import FoodList from './components/foodlist.js';
 import Filters from './components/filters.js';
 import $ from "jquery";
+import Location from './components/geolocation.js'
 
 class App extends React.Component {
   constructor(props) {
@@ -13,6 +14,8 @@ class App extends React.Component {
       searchList: [],
       searchResults: []
     }
+    console.log(this);
+    console.log(props);
   }
 
   onAdd (terms) {
@@ -30,10 +33,10 @@ class App extends React.Component {
     $.ajax({
       url: 'http://localhost:3000/foodlist',
       type: 'POST',
-      dataType: 'json',
+      dataType: 'text',
       data: {
-        location: app.state.location,
-        filters: app.state.searchList
+        filters: app.state.searchList,
+        location: app.state.location
       },
       success: function(data) {
         console.log('successfully got data')
@@ -69,6 +72,7 @@ class App extends React.Component {
       <Search onSearch={this.onAdd.bind(this)} onLocation={this.onLocation.bind(this)}/>
       <Filters {...this.state}/>
       <button onClick={() => {this.postData()}}>Submit</button>
+      <Location />
     </div>)
   }
 }
@@ -76,3 +80,5 @@ class App extends React.Component {
 document.addEventListener('DOMContentLoaded', function() {
   ReactDOM.render(<App />, document.getElementById('app'));
 });
+
+
