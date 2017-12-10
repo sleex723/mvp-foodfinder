@@ -1,0 +1,30 @@
+{
+  "name": "MVP-HR",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "compile": "webpack -d --watch",
+    "start": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-latest": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "bootstrap": "^4.0.0-beta.2",
+    "create-react-app": "^1.4.3",
+    "express": "^4.16.2",
+    "jquery": "^3.2.1",
+    "react": "^16.2.0",
+    "react-bootstrap": "^0.31.5",
+    "react-dom": "^16.2.0",
+    "webpack": "^3.10.0",
+    "webpack-dev-middleware": "^1.12.2",
+    "yelp": "^1.0.2"
+  }
+}
