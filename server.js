@@ -21,15 +21,13 @@ app.use(webpackDevMiddleware(compiler, {
 }));
 
 app.post('/foodlist', function(req, res) {
-  yelp.yelp.search({term: 'food', location: '90210', price: '1,2,3', limit: 10})
-  .then(function (data) {
-      console.log(data);
-      console.log('good');
-  })
-  .catch(function (err) {
-      console.error(err);
-      console.log('fail');
-  });
+  console.log(yelp.yelpHelper('mexican', function(err, data) {
+    if(err) {
+      console.log('error', err);
+    }
+    console.log(data);
+  }))
+
   res.end();
 })
 
