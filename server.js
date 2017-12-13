@@ -6,6 +6,7 @@ const app = express();
 const bodyParser = require('body-parser')
 const compiler = webpack(webpackConfig);
 const yelp = require('./helpers/yelpHelper.js');
+const firebase = require('./database/app.js');
 
 app.use(express.static(__dirname + '/www'));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -19,15 +20,14 @@ app.use(webpackDevMiddleware(compiler, {
   },
   historyApiFallback: true,
 }));
-
+//name, photoUrl, description, rating, address, link
 app.post('/foodlist', function(req, res) {
-  console.log(yelp.yelpHelper('mexican', function(err, data) {
-    if(err) {
-      console.log('error', err);
-    }
-    console.log(data);
-  }))
-
+  console.log(req.body);
+  yelp.yelpHelper(req.body, function(data) {
+    var info = data.businesses.map(function(el) {
+      firebase.writeUserData(el.name, el.image_url, el.rating, el.location.address1, el.url)
+    })
+  })
   res.end();
 })
 

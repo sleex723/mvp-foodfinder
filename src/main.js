@@ -4,14 +4,13 @@ import Search from './components/search.js';
 import FoodList from './components/foodlist.js';
 import Filters from './components/filters.js';
 import $ from "jquery";
-import Location from './components/geolocation.js'
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      location: '91765',
-      searchList: [],
+      location: 91765,
+      searchList: ['mexican', 'pizza'],
       searchResults: []
     }
     console.log(this);
@@ -40,6 +39,7 @@ class App extends React.Component {
       },
       success: function(data) {
         console.log('successfully got data')
+        console.log('data from MAIN.JS', data);
       },
       error: function(err) {
         console.error(err);
@@ -72,7 +72,6 @@ class App extends React.Component {
       <Search onSearch={this.onAdd.bind(this)} onLocation={this.onLocation.bind(this)}/>
       <Filters {...this.state}/>
       <button onClick={() => {this.postData()}}>Submit</button>
-      <Location />
     </div>)
   }
 }

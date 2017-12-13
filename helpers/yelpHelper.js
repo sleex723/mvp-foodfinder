@@ -11,22 +11,24 @@ let yelpHelper = (data, cb) => {
 
    // In this function, you'll use the npm request module to fetch a user's Github repositories from the Github API.
    console.log('Trying to get information from yelpHelper', data);
-   console.log(config.YELP_API_KEY)
 
   var options = { method: 'GET',
     url: 'https://api.yelp.com/v3/businesses/search',
     qs:
-     { term: 'delis indian mexican american',
-       latitude: '37.786882',
-       longitude: '-122.399972' },
+     { term: `Restaurant`,
+       limit: 10,
+       location: `${data.location}`,
+       categories: `restaurant,${JSON.stringify(data['filters[]'].join(','))}`,
+       sort_by: 'review_count' },
     headers:
      { 'cache-control': 'no-cache',
        authorization: `Bearer ${config.YELP_API_KEY}` } };
 
   request(options, function (error, response, body) {
     if (error) throw new Error(error);
-
-    console.log(body);
+    var info = JSON.parse(body);
+    cb(info)
+    // console.log(body);
   });
 
 
