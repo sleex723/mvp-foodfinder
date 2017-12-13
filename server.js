@@ -20,7 +20,8 @@ app.use(webpackDevMiddleware(compiler, {
   },
   historyApiFallback: true,
 }));
-//name, photoUrl, description, rating, address, link
+
+//name, photoUrl, rating, address, link
 app.post('/foodlist', function(req, res) {
   console.log(req.body);
   yelp.yelpHelper(req.body, function(data) {
@@ -29,6 +30,21 @@ app.post('/foodlist', function(req, res) {
     })
   })
   res.end();
+})
+
+app.get('/foodlist', function(req, res) {
+  var dataArr = [];
+  firebase.getUserData(function(data) {
+    // var dataArr = [];
+    for(var key in data) {
+      dataArr.push(data[key]);
+    }
+    // res.status(200).send(dataArr);
+    // res.end();
+  })
+  res.status(200).send(dataArr);
+
+  // res.end();
 })
 
 const server = app.listen(3000, function() {

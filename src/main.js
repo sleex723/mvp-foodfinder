@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Search from './components/search.js';
-import FoodList from './components/foodlist.js';
+import Foodlist from './components/foodlist.js';
 import Filters from './components/filters.js';
 import $ from "jquery";
 
@@ -39,7 +39,7 @@ class App extends React.Component {
       },
       success: function(data) {
         console.log('successfully got data')
-        console.log('data from MAIN.JS', data);
+        app.fetchList();
       },
       error: function(err) {
         console.error(err);
@@ -72,6 +72,7 @@ class App extends React.Component {
       <Search onSearch={this.onAdd.bind(this)} onLocation={this.onLocation.bind(this)}/>
       <Filters {...this.state}/>
       <button onClick={() => {this.postData()}}>Submit</button>
+      <Foodlist {...this.state}/>
     </div>)
   }
 }

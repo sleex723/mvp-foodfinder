@@ -1,5 +1,7 @@
 const firebase = require('firebase');
-const api = require('../config/yelp.js')
+const api = require('../config/yelp.js');
+
+
 var config = {
   apiKey: api.FIREBASE_API,
   authDomain: "hrmvp-75480.firebaseapp.com",
@@ -20,8 +22,14 @@ var writeUserData = function(name, photoUrl, rating, address, link) {
     address: address,
     link: link
   })
+}
 
-  console.log(database)
+var leadsRef = firebase.database().ref('foodlist');
+var getUserData = function(cb) {
+  leadsRef.on('value', function(snap) {
+    cb(snap.val());
+  })
 }
 
 module.exports.writeUserData = writeUserData;
+module.exports.getUserData = getUserData;

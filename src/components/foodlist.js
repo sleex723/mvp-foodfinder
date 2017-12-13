@@ -1,23 +1,13 @@
 import React from 'react';
 
-class FoodList extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      search: ''
-    };
-  }
-
-  render() {
+const Foodlist = (props) => {
+  console.log('Foodlist', props);
+  const listOfRestaurants = props.searchResults.map((item) => {
     return (
-      <button
-        onClick={() => {
-          this.setState({ count: this.state.count + 1 });
-        }}
-      >
-        Count: {this.state.count}
-      </button>
-    );
-  }
+      <li>{item.name}</li>
+    )
+  })
+
+  return (<div>{listOfRestaurants}</div>);
 }
-export default FoodList;
+export default Foodlist;
