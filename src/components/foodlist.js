@@ -11,6 +11,11 @@ const Foodlist = (props) => {
     return(
       <div>
         <h2>{category}</h2>
+        <li>{props.getCategoryFromList(category, (info) => {
+          console.log('category', category);
+          console.log('info', info);
+          return(<ul>'hello'</ul>)
+        })}</li>
       </div>
       )
   });

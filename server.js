@@ -45,7 +45,7 @@ app.get('/foodlist', function(req, res) {
     //   dataArr.push(data);
     // }
     // console.log(dataArr);
-    firebase.addCount();
+    firebase.randomNum();
     // res.status(200).send(dataArr);
     res.status(200).send(data);
   })

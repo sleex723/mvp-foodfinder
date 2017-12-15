@@ -13,10 +13,9 @@ var config = {
 firebase.initializeApp(config);
 
 var database = firebase.database();
-var count = 0;
-var addCount = function() {
-  count++;
-  console.log('add function', count);
+var count = Math.floor(Math.random() * 99999999);
+var randomNum = function() {
+  count = Math.floor(Math.random() * 99999999);
 }
 
 var writeUserData = function(category, name, photoUrl, rating, address, link) {
@@ -45,6 +44,6 @@ var getUserData = function(cb) {
   })
 }
 
-module.exports.addCount = addCount;
+module.exports.randomNum = randomNum;
 module.exports.writeUserData = writeUserData;
 module.exports.getUserData = getUserData;

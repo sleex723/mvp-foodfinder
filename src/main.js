@@ -47,6 +47,7 @@ class App extends React.Component {
         console.log('successfully got data')
         app.fetchList();
         app.toggleHidden();
+        // app.getCategoryFromList('mexican'); //testing purposes
       },
       error: function(err) {
         console.error(err);
@@ -72,13 +73,25 @@ class App extends React.Component {
     }, 1000)
   }
 
+  getCategoryFromList(category, cb) {
+    var list = this.state.searchResults;
+    for(var key in list) {
+      if(category === key) {
+        for(var restaurant in list[key]) {
+          cb(list[key][restaurant])
+        }
+      }
+      // console.log(list[key]);
+    }
+  }
+
   render () {
     return (<div>
       <h1>Food Picker</h1>
       <Search onSearch={this.onAdd.bind(this)} onLocation={this.onLocation.bind(this)}/>
       <Filters {...this.state}/>
       <button onClick={() => {this.postData()}}>Submit</button>
-      {!this.state.isHidden && <Foodlist {...this.state}/>}
+      {!this.state.isHidden && <Foodlist {...this.state} getCategoryFromList={this.getCategoryFromList.bind(this)}/>}
     </div>)
   }
 }
