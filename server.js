@@ -23,26 +23,33 @@ app.use(webpackDevMiddleware(compiler, {
 
 //name, photoUrl, rating, address, link
 app.post('/foodlist', function(req, res) {
-  console.log(req.body);
-  yelp.yelpHelper(req.body, function(data) {
-    var info = data.businesses.map(function(el) {
-      firebase.writeUserData(el.name, el.image_url, el.rating, el.location.address1, el.url)
+  var searches = req.body['filters[]'];
+  searches.forEach(function(term) {
+    yelp.yelpHelper(term, req.body.location, function(data) {
+      var info = data.businesses.map(function(el) {
+        console.log(term);
+        firebase.writeUserData(term, el.name, el.image_url, el.rating, el.location.address1, el.url)
+      })
     })
   })
   res.end();
 })
 
 app.get('/foodlist', function(req, res) {
-  var dataArr = [];
+  // var dataArr = [];
   firebase.getUserData(function(data) {
     // var dataArr = [];
-    for(var key in data) {
-      dataArr.push(data[key]);
-    }
+    // console.log(data);
+    // for(var key in data) {
+    //   // console.log(data[key]);
+    //   dataArr.push(data);
+    // }
+    // console.log(dataArr);
+    firebase.addCount();
     // res.status(200).send(dataArr);
-    // res.end();
+    res.status(200).send(data);
   })
-  res.status(200).send(dataArr);
+  // res.status(200).send(dataArr);
 
   // res.end();
 })

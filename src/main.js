@@ -11,12 +11,18 @@ class App extends React.Component {
     this.state = {
       location: 91765,
       searchList: ['mexican', 'pizza'],
-      searchResults: []
+      searchResults: {},
+      isHidden: true
     }
     console.log(this);
     console.log(props);
   }
 
+  toggleHidden() {
+    this.setState({
+      isHidden: !this.state.isHidden
+    })
+  }
   onAdd (terms) {
     var newStateArr = this.state.searchList.slice();
     newStateArr.push(terms);
@@ -40,6 +46,7 @@ class App extends React.Component {
       success: function(data) {
         console.log('successfully got data')
         app.fetchList();
+        app.toggleHidden();
       },
       error: function(err) {
         console.error(err);
@@ -48,22 +55,21 @@ class App extends React.Component {
   }
 
   fetchList () {
-
     var app = this;
-
-    $.ajax({
-      url: 'http://localhost:3000/foodlist',
-      type: 'GET',
-      dataType: 'json',
-      success: function(data) {
-        console.log('successfully got data', data);
-        app.setState({searchResults: data});
-      },
-      error: function(err) {
-        console.error('hello', err);
-      }
-    })
-
+    setTimeout(function() {
+      $.ajax({
+        url: 'http://localhost:3000/foodlist',
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+          console.log('successfully got data', data);
+          app.setState({searchResults: data});
+        },
+        error: function(err) {
+          console.error('hello', err);
+        }
+      })
+    }, 1000)
   }
 
   render () {
@@ -72,7 +78,7 @@ class App extends React.Component {
       <Search onSearch={this.onAdd.bind(this)} onLocation={this.onLocation.bind(this)}/>
       <Filters {...this.state}/>
       <button onClick={() => {this.postData()}}>Submit</button>
-      <Foodlist {...this.state}/>
+      {!this.state.isHidden && <Foodlist {...this.state}/>}
     </div>)
   }
 }

@@ -13,9 +13,14 @@ var config = {
 firebase.initializeApp(config);
 
 var database = firebase.database();
+var count = 0;
+var addCount = function() {
+  count++;
+  console.log('add function', count);
+}
 
-var writeUserData = function(name, photoUrl, rating, address, link) {
-  database.ref('foodlist/').push({
+var writeUserData = function(category, name, photoUrl, rating, address, link) {
+  database.ref(`foodlist/${count}/${category}`).push({
     name: name,
     photoUrl: photoUrl,
     rating: rating,
@@ -26,10 +31,20 @@ var writeUserData = function(name, photoUrl, rating, address, link) {
 
 var leadsRef = firebase.database().ref('foodlist');
 var getUserData = function(cb) {
-  leadsRef.on('value', function(snap) {
+  console.log(count);
+  var userData = [];
+  leadsRef.child(`${count}`).on('value', function(snap) {
     cb(snap.val());
+    // console.log(snap.val());
+    // var categories = Object.keys(snap.val());
+    // var searchRes = snap.val();
+    // console.log(categories);
+    // categories.forEach(function(restaurantKey) {
+    //   console.log(searchRes[restaurantKey])
+    // })
   })
 }
 
+module.exports.addCount = addCount;
 module.exports.writeUserData = writeUserData;
 module.exports.getUserData = getUserData;

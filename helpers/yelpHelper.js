@@ -2,7 +2,7 @@
 const request = require('request');
 const config = require('../config/yelp.js');
 
-let yelpHelper = (data, cb) => {
+let yelpHelper = (data, location, cb) => {
   // TODO - Use the request module to request repos for a specific
   // user from the github API
 
@@ -15,10 +15,11 @@ let yelpHelper = (data, cb) => {
   var options = { method: 'GET',
     url: 'https://api.yelp.com/v3/businesses/search',
     qs:
-     { term: `Restaurant`,
-       limit: 10,
-       location: `${data.location}`,
-       categories: `restaurant,${JSON.stringify(data['filters[]'].join(','))}`,
+     { term: `${JSON.stringify(data)}`,
+       limit: 1,
+       location: `${location}`,
+       radius: 10000,
+       categories: `restaurants`,
        sort_by: 'review_count' },
     headers:
      { 'cache-control': 'no-cache',
