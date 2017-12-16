@@ -16,7 +16,7 @@ let yelpHelper = (data, location, cb) => {
     url: 'https://api.yelp.com/v3/businesses/search',
     qs:
      { term: `${JSON.stringify(data)}`,
-       limit: 1,
+       limit: 3,
        location: `${location}`,
        radius: 10000,
        categories: `restaurants`,

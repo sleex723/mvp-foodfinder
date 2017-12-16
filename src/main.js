@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Search from './components/search.js';
-import Foodlist from './components/foodlist.js';
+import Categorylist from './components/categorylist.js';
 import Filters from './components/filters.js';
+import Restaurantentry from './components/filters.js';
 import $ from "jquery";
 
 class App extends React.Component {
@@ -10,7 +11,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       location: 91765,
-      searchList: ['mexican', 'pizza'],
+      searchList: [],
       searchResults: {},
       isHidden: true
     }
@@ -75,14 +76,20 @@ class App extends React.Component {
 
   getCategoryFromList(category, cb) {
     var list = this.state.searchResults;
+    console.log('!!!', list);
+    var arr = [];
     for(var key in list) {
+      console.log('key', key)
       if(category === key) {
         for(var restaurant in list[key]) {
-          cb(list[key][restaurant])
+          console.log('list[key][restaurant]', list[key][restaurant])
+          arr.push(list[key][restaurant])
         }
+        cb(arr)
       }
       // console.log(list[key]);
     }
+
   }
 
   render () {
@@ -91,7 +98,7 @@ class App extends React.Component {
       <Search onSearch={this.onAdd.bind(this)} onLocation={this.onLocation.bind(this)}/>
       <Filters {...this.state}/>
       <button onClick={() => {this.postData()}}>Submit</button>
-      {!this.state.isHidden && <Foodlist {...this.state} getCategoryFromList={this.getCategoryFromList.bind(this)}/>}
+      {!this.state.isHidden && <Categorylist {...this.state} getCategoryFromList={this.getCategoryFromList.bind(this)}/>}
     </div>)
   }
 }
